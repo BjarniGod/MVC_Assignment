@@ -1,20 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Upload</title>
-</head>
-<body>
+<?php 
+require('model/database.php');
+require('model/todo_db.php');
 
-    <h1>File Upload</h1>
-        
-    <form action="uploads.php" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <button type="submit" name="submit">Upload</button>
-    </form>
-</body>
+$item_number = filter_input(INPUT_POST, "item_number", FILTER_VALIDATE_INT);
+$title = filter_input(INPUT_POST, "title", FILTER_UNSAFE_RAW);
+$description = filter_input(INPUT_POST, "description", FILTER_UNSAFE_RAW);
 
 
-</html>
+
+$action = filter_input(INPUT_POST, "action", FILTER_UNSAFE_RAW);
+if(!$action) {
+    $action = filter_input(INPUT_GET, "action", FILTER_UNSAFE_RAW);
+    if(!$action) {
+        $action = 'list_todos';
+    }
+}
+
+switch($action) {
+    case "list_todos":
+        $todos = get_todos();
+        include('view/todo_list.php');
+        break;
+
+    case "add_todo":
+        if($title && $description) {
+        add_todo($title, $description);
+        header("Location: .?action=list_todos");
+        } else {
+            $error_message = "Invalid assignment data. Check all the fields and try again!";
+            include('view/error.php');
+            exit();
+        }
+    
+    case "delete_todo":
+        if($item_number) {
+            delete_todo($item_number);
+            header("Location: .?action=list_todos");
+        } else {
+            $error_message = "Missing or incorrect item number!";
+            include('view/error.php');
+        }
+        break;
+    
+
+
+    default:
+        $title = get_todo_title($course_id);
+        $todos = get_todos();
+        include('view/todo_list.php');
+}
+
+
+
+?>
+
