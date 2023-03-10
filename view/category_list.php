@@ -3,9 +3,10 @@
 <?php if($categories) { ?>
     <section id="list" class="list">
         <header>
-            <h1>Category List</h1>
+            <h2>Category List</h2>
         </header>
         <?php foreach($categories as $category): ?>
+            <?php if($category['categoryID'] != -1) { ?>
             <div class="list_row">
                 <div class="list_item">
                     <p><?= $category['categoryName'] ?></p>
@@ -14,10 +15,11 @@
                     <form action="." method="post">
                         <input type="hidden" name="action" value="delete_category">
                         <input type="hidden" name="category_id" value="<?= $category['categoryID'] ?>">
-                        <button>X</button>
+                        <button>Remove</button>
                     </form>
                 </div>
             </div>
+            <?php } ?>
         <?php endforeach ?>
     </section>
     

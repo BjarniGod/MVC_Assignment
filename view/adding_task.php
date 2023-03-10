@@ -9,20 +9,22 @@
         <div class="add__inputs">
             <label>Category:</label>
             <select name="category_id" required>
-                <option>Please Select the Category</option>
+                <option value="-1">None</option>
                 <?php foreach($categories as $category): ?>
+                    <?php if($category['categoryID'] != -1) { ?>
                     <option value="<?= $category['categoryID'] ?>">
                         <?= $category['categoryName'] ?>    
                     </option>
+                    <?php } ?>
                 <?php endforeach ?>
             </select>
             <label>Title</label>
-            <input type="text" name="title" maxlength="120" Placeholder="Task Title" required>
+            <input type="text" name="title" maxlength="120"  required>
             <label>Description</label>
-            <input type="text" name="description" maxlength="120" Placeholder="Task Description" required>
+            <input type="text" name="description" maxlength="120" required>
         </div>
         <div class="add__addItem">
-            <button>Add Task</button>
+            <button>Add Item</button>
         </div>
     </form>
 </section>

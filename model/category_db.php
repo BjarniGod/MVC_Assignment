@@ -50,4 +50,14 @@ function add_category($category_name) {
     $statement->closeCursor();
 }
 
+function add_category_id($category_id, $category_name) {
+    global $db;
+    $query = 'INSERT INTO categories (categoryID, categoryName) VALUE (:category_id, :category_name)';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':category_id', $category_id);
+    $statement->bindValue(':category_name', $category_name);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
 ?>

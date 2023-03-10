@@ -29,9 +29,12 @@ switch($action) {
         break;
 
     case "add_todo":
+        if($category_id == -1) {
+            if(get_category_name(-1) != "None") {
+                add_category_id($category_id, "None");
+            }
+        }
         if($title && $description) {
-            if(!$category_id)
-                $category_name = "None";
             add_todo($title, $description, $category_id);
             header("Location: .?action=list_todos");
         } else {
@@ -82,7 +85,7 @@ switch($action) {
             }
             header("Location: .?action=list_categories");
         } else {
-            $error_message = "Not able to !";
+            $error_message = "Missing category ID!";
             include('view/error.php');
         }
         break;
